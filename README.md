@@ -1,3 +1,14 @@
+# THIS IS THE HOMEPAGE
+## I dont know how markdown works. so this will have to do.
 
-# you're gay
-# if your a furry and you know it clap your hands
+
+
+
+
+
+
+
+
+
+# DIRECTORY
+### http://8d1.me/letssee.html - Joke news.
