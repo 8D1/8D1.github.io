@@ -12,6 +12,6 @@
 
 # DIRECTORY
 ##### Joke news
-http://8d1.me/letssee.html/
+http://www.8d1.me/letssee.html/
 
 
