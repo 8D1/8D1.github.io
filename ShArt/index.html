@@ -1,23 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>This is a school project.</title>
-</head>
-<body>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-    div.centre {
-        text-align: center;
-    }
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+  height: 100%;
+  color: #777;
+  line-height: 1.8;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+  background-image: url('/w3images/parallax1.jpg');
+  min-height: 100%;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+  background-image: url("/w3images/parallax2.jpg");
+  min-height: 400px;
+}
+
+/* Third image (Contact) */
+.bgimg-3 {
+  background-image: url("/w3images/parallax3.jpg");
+  min-height: 400px;
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+    min-height: 400px;
+  }
+}
 </style>
-<div class=centre>
-    <h1>Shit Art!</h1>
-    <h3>We got permission to make a website so we are doing it.</h3>
-    <h6>lol</h6>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="#home" class="w3-bar-item w3-button">HOME</a>
+    <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+    <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> PORTFOLIO</a>
+    <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red">
+      <i class="fa fa-search"></i>
+    </a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
+    <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">PORTFOLIO</a>
+    <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
+    <a href="#" class="w3-bar-item w3-button">SEARCH</a>
+  </div>
 </div>
-<h1></h1>
-<h1></h1>
-<div class=centre>
-    <h2>lol xd</h2>
-    <img src="data:image/jpeg;base64,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" alt="blame the developers. they broke it.">
+
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+  <div class="w3-display-middle" style="white-space:nowrap;">
+    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">MY <span class="w3-hide-small">WEBSITE</span> LOGO</span>
+  </div>
 </div>
+
+<!-- Container (About Section) -->
+<div class="w3-content w3-container w3-padding-64" id="about">
+  <h3 class="w3-center">ABOUT ME</h3>
+  <p class="w3-center"><em>I love photography</em></p>
+  <p>We have created a fictional "personal" website/blog, and our fictional character is a hobby photographer. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+    qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <div class="w3-row">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <p><b><i class="fa fa-user w3-margin-right"></i>My Name</b></p><br>
+      <img src="/w3images/avatar_hat.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-hide-small w3-padding-large">
+      <p>Welcome to my website. I am lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+  <p class="w3-large w3-center w3-padding-16">Im really good at:</p>
+  <p class="w3-wide"><i class="fa fa-camera"></i>Photography</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:90%">90%</div>
+  </div>
+  <p class="w3-wide"><i class="fa fa-laptop"></i>Web Design</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:85%">85%</div>
+  </div>
+  <p class="w3-wide"><i class="fa fa-photo"></i>Photoshop</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:75%">75%</div>
+  </div>
+</div>
+
+<div class="w3-row w3-center w3-dark-grey w3-padding-16">
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">14+</span><br>
+    Partners
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">55+</span><br>
+    Projects Done
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">89+</span><br>
+    Happy Clients
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">150+</span><br>
+    Meetings
+  </div>
+</div>
+
+<!-- Second Parallax Image with Portfolio Text -->
+<div class="bgimg-2 w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+    <span class="w3-xxlarge w3-text-white w3-wide">PORTFOLIO</span>
+  </div>
+</div>
+
+<!-- Container (Portfolio Section) -->
+<div class="w3-content w3-container w3-padding-64" id="portfolio">
+  <h3 class="w3-center">MY WORK</h3>
+  <p class="w3-center"><em>Here are some of my latest lorem work ipsum tipsum.<br> Click on the images to make them bigger</em></p><br>
+
+  <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
+  <div class="w3-row-padding w3-center">
+    <div class="w3-col m3">
+      <img src="/w3images/p1.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist over the mountains">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p2.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Coffee beans">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p3.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Bear closeup">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p4.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Quiet ocean">
+    </div>
+  </div>
+
+  <div class="w3-row-padding w3-center w3-section">
+    <div class="w3-col m3">
+      <img src="/w3images/p5.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="The mist">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p6.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="My beloved typewriter">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p7.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Empty ghost train">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="/w3images/p8.jpg" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Sailing">
+    </div>
+    <button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px">LOAD MORE</button>
+  </div>
+</div>
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-large w3-black w3-display-topright" title="Close Modal Image"><i class="fa fa-remove"></i></span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<!-- Third Parallax Image with Portfolio Text -->
+<div class="bgimg-3 w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+     <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div class="w3-content w3-container w3-padding-64" id="contact">
+  <h3 class="w3-center">WHERE I WORK</h3>
+  <p class="w3-center"><em>I'd love your feedback!</em></p>
+
+  <div class="w3-row w3-padding-32 w3-section">
+    <div class="w3-col m4 w3-container">
+      <img src="/w3images/map.jpg" class="w3-image w3-round" style="width:100%">
+    </div>
+    <div class="w3-col m8 w3-panel">
+      <div class="w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Chicago, US<br>
+        <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: +00 151515<br>
+        <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: mail@mail.com<br>
+      </div>
+      <p>Swing by for a cup of <i class="fa fa-coffee"></i>, or leave me a note:</p>
+      <form action="/action_page.php" target="_blank">
+        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+          <div class="w3-half">
+            <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+          </div>
+          <div class="w3-half">
+            <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+          </div>
+        </div>
+        <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+        <button class="w3-button w3-black w3-right w3-section" type="submit">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <div class="w3-xlarge w3-section">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+ 
+<script>
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+// Change style of navbar on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+    var navbar = document.getElementById("myNavbar");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+    } else {
+        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+    }
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function toggleFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
