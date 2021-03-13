@@ -2,9 +2,6 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
 | Version | Supported          |
 | ------- | ------------------ |
 | Current | :white_check_mark: |
@@ -14,4 +11,12 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Issue a support and ill get around to it!
+Create an issue, with the following,
+
+A detailed overview of the issue, Images if needed.
+
+Steps to recreate the issue
+
+any other valuable information
+# if it puts the security of our users at risk, Please email admin@8d1.me
+
