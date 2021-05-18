@@ -18,5 +18,5 @@ A detailed overview of the issue, Images if needed.
 Steps to recreate the issue
 
 any other valuable information
-# if it puts the security of our users at risk, Please email admin@8d1.me
+## if it puts the security of our users at risk, Please email admin@8d1.me
 
