@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: 8d1.me
+Token: 3f4633f14c91459e981180b1f33b15248454450f53a4ea73feabab2ac039f3c7
