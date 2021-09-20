@@ -1,0 +1,3 @@
+order allow,deny
+deny from 192.139.27.23
+allow from all
