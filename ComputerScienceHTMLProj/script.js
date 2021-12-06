@@ -1,7 +1,7 @@
 
-//var antiviolence = document.getElementById(All)
+var antiviolence = document.getElementById(All)
 function change2() {
     ""
 }
-//antiviolence =
+antiviolence =
     All.innerHTML = "";
