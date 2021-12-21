@@ -1,2 +1,3 @@
 # 8D1.ME website
-# it gets better i promise, I think.
+# it gets better I promise, I think.
+# 69
