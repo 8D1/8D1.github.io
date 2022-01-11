@@ -4,13 +4,14 @@ div.absolute{
     width: 50%;
     border: 3px solid red;
 }
-.button {
-    background-color: #4CAF50; /* Green */
-    border: none;
+button {
+    background-color: white;
+    color: black;
+    border: 2px solid green;
+    padding: 16px;
+    transition-duration: 0.4s;
+}
+button:hover{
+    background-color: green;
     color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
 }
