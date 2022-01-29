@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Board.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Board.js</font>
+</center></td></tr></table>
+<pre><span class="s0">class </span><span class="s1">Board {</span>
+  <span class="s1">constructor() {</span>
+    <span class="s0">this</span><span class="s1">.whitePieces = []</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces = []</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.score = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.setupPieces()</span><span class="s0">;</span>
+
+
+  <span class="s1">}</span>
+
+  <span class="s1">setupPieces() {</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">King(</span><span class="s2">4</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Queen(</span><span class="s2">3</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Bishop(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Bishop(</span><span class="s2">5</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Knight(</span><span class="s2">1</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Rook(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Knight(</span><span class="s2">6</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Rook(</span><span class="s2">7</span><span class="s0">, </span><span class="s2">7</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">4</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">3</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">5</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">1</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">6</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.whitePieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">7</span><span class="s0">, </span><span class="s2">6</span><span class="s0">, true</span><span class="s1">))</span><span class="s0">;</span>
+
+    <span class="s3">//black pieces</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">King(</span><span class="s2">4</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Queen(</span><span class="s2">3</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Bishop(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Bishop(</span><span class="s2">5</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Knight(</span><span class="s2">1</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Rook(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Knight(</span><span class="s2">6</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Rook(</span><span class="s2">7</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">4</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">3</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">2</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">5</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">1</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">0</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">6</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.blackPieces.push(</span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s2">7</span><span class="s0">, </span><span class="s2">1</span><span class="s0">, false</span><span class="s1">))</span><span class="s0">;</span>
+
+
+  <span class="s1">}</span>
+
+  <span class="s1">show() {</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">this</span><span class="s1">.whitePieces[i].show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">this</span><span class="s1">.blackPieces[i].show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s1">isPieceAt(x</span><span class="s0">, </span><span class="s1">y) {</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.whitePieces[i].taken &amp;&amp; </span><span class="s0">this</span><span class="s1">.whitePieces[i].matrixPosition.x ==</span>
+        <span class="s1">x &amp;&amp; </span><span class="s0">this</span><span class="s1">.whitePieces[i].matrixPosition.y == y) {</span>
+        <span class="s0">return true;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.blackPieces[i].taken &amp;&amp; </span><span class="s0">this</span><span class="s1">.blackPieces[i].matrixPosition.x ==</span>
+        <span class="s1">x &amp;&amp; </span><span class="s0">this</span><span class="s1">.blackPieces[i].matrixPosition.y == y) {</span>
+        <span class="s0">return true;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">getPieceAt(x</span><span class="s0">, </span><span class="s1">y) {</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.whitePieces[i].taken &amp;&amp; </span><span class="s0">this</span><span class="s1">.whitePieces[i].matrixPosition.x ==</span>
+        <span class="s1">x &amp;&amp; </span><span class="s0">this</span><span class="s1">.whitePieces[i].matrixPosition.y == y) {</span>
+        <span class="s0">return this</span><span class="s1">.whitePieces[i]</span><span class="s0">;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.blackPieces[i].taken &amp;&amp; </span><span class="s0">this</span><span class="s1">.blackPieces[i].matrixPosition.x ==</span>
+        <span class="s1">x &amp;&amp; </span><span class="s0">this</span><span class="s1">.blackPieces[i].matrixPosition.y == y) {</span>
+        <span class="s0">return this</span><span class="s1">.blackPieces[i]</span><span class="s0">;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">return null;</span>
+  <span class="s1">}</span>
+
+
+  <span class="s1">generateNewBoardsWhitesTurn() {</span>
+    <span class="s0">var </span><span class="s1">boards = []</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.whitePieces[i].taken) {</span>
+        <span class="s0">var </span><span class="s1">tempArr = </span><span class="s0">this</span><span class="s1">.whitePieces[i].generateNewBoards(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; tempArr.length</span><span class="s0">; </span><span class="s1">j++) {</span>
+          <span class="s1">boards.push(tempArr[j])</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">return </span><span class="s1">boards</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">generateNewBoardsBlacksTurn() {</span>
+    <span class="s0">var </span><span class="s1">boards = []</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.blackPieces[i].taken) {</span>
+        <span class="s0">var </span><span class="s1">tempArr = </span><span class="s0">this</span><span class="s1">.blackPieces[i].generateNewBoards(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; tempArr.length</span><span class="s0">; </span><span class="s1">j++) {</span>
+          <span class="s1">boards.push(tempArr[j])</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">return </span><span class="s1">boards</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">setScore() {</span>
+    <span class="s0">this</span><span class="s1">.score = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.whitePieces[i].taken) {</span>
+        <span class="s0">this</span><span class="s1">.score -= </span><span class="s0">this</span><span class="s1">.whitePieces[i].value</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s3">//print(&quot;something&quot;);</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.blackPieces[i].taken) {</span>
+        <span class="s0">this</span><span class="s1">.score += </span><span class="s0">this</span><span class="s1">.blackPieces[i].value</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s3">//print(&quot;something&quot;);</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+
+  <span class="s1">}</span>
+
+  <span class="s1">move(from</span><span class="s0">, </span><span class="s1">to) {</span>
+    <span class="s0">var </span><span class="s1">pieceToMove = </span><span class="s0">this</span><span class="s1">.getPieceAt(from.x</span><span class="s0">, </span><span class="s1">from.y)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(pieceToMove == </span><span class="s0">null</span><span class="s1">) {</span>
+      <span class="s3">//print(&quot;shit&quot;);</span>
+      <span class="s0">return;</span>
+    <span class="s1">}</span>
+    <span class="s3">// if (pieceToMove.canMove(to.x, to.y, this)) {</span>
+    <span class="s1">pieceToMove.move(to.x</span><span class="s0">, </span><span class="s1">to.y</span><span class="s0">, this</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s3">// }</span>
+  <span class="s1">}</span>
+
+
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Board()</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.whitePieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s1">clone.whitePieces[i] = </span><span class="s0">this</span><span class="s1">.whitePieces[i].clone()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.blackPieces.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s1">clone.blackPieces[i] = </span><span class="s0">this</span><span class="s1">.blackPieces[i].clone()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">isDone() {</span>
+    <span class="s0">return this</span><span class="s1">.whitePieces[</span><span class="s2">0</span><span class="s1">].taken || </span><span class="s0">this</span><span class="s1">.blackPieces[</span><span class="s2">0</span><span class="s1">].taken</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">isDead() {</span>
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return this</span><span class="s1">.whitePieces[</span><span class="s2">0</span><span class="s1">].taken</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return this</span><span class="s1">.blackPieces[</span><span class="s2">0</span><span class="s1">].taken</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">hasWon() {</span>
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return this</span><span class="s1">.blackPieces[</span><span class="s2">0</span><span class="s1">].taken</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return this</span><span class="s1">.whitePieces[</span><span class="s2">0</span><span class="s1">].taken</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

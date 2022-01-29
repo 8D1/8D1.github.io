@@ -1,0 +1,649 @@
+<html>
+<head>
+<title>Piece.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Piece.js</font>
+</center></td></tr></table>
+<pre><span class="s0">class </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite</span><span class="s0">, </span><span class="s1">letter</span><span class="s0">, </span><span class="s1">pic) {</span>
+    <span class="s0">this</span><span class="s1">.matrixPosition = createVector(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.pixelPosition = createVector(x * tileSize + tileSize / </span><span class="s2">2</span><span class="s0">, </span><span class="s1">y *</span>
+      <span class="s1">tileSize + tileSize / </span><span class="s2">2</span><span class="s1">)</span><span class="s0">;</span>
+
+    <span class="s0">this</span><span class="s1">.taken = </span><span class="s0">false;</span>
+    <span class="s0">this</span><span class="s1">.white = isWhite</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = letter</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.pic = pic</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.movingThisPiece = </span><span class="s0">false;</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">0</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s3">//needs to extend these</span>
+  <span class="s1">show() {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.taken) {</span>
+
+      <span class="s3">// textSize(40);</span>
+      <span class="s3">// strokeWeight(5);</span>
+      <span class="s3">// if(this.white){</span>
+      <span class="s3">//   fill(255);</span>
+      <span class="s3">//   stroke(0);</span>
+      <span class="s3">// }else{</span>
+      <span class="s3">//   fill(30);</span>
+      <span class="s3">//   stroke(255);</span>
+      <span class="s3">// }</span>
+      <span class="s3">// textAlign(CENTER,CENTER);</span>
+      <span class="s1">imageMode(CENTER)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.movingThisPiece) {</span>
+        <span class="s3">// text(this.letter, mouseX,mouseY);</span>
+        <span class="s1">image(</span><span class="s0">this</span><span class="s1">.pic</span><span class="s0">, </span><span class="s1">mouseX</span><span class="s0">, </span><span class="s1">mouseY</span><span class="s0">, </span><span class="s1">tileSize * </span><span class="s2">1.5</span><span class="s0">, </span><span class="s1">tileSize * </span><span class="s2">1.5</span><span class="s1">)</span><span class="s0">;</span>
+
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s3">// text(this.letter, this.pixelPosition.x,this.pixelPosition.y);</span>
+        <span class="s1">image(</span><span class="s0">this</span><span class="s1">.pic</span><span class="s0">, this</span><span class="s1">.pixelPosition.x</span><span class="s0">, this</span><span class="s1">.pixelPosition.y</span><span class="s0">, </span><span class="s1">tileSize</span><span class="s0">,</span>
+          <span class="s1">tileSize)</span><span class="s0">;</span>
+
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+
+  <span class="s1">generateNewBoards(currentBoard) {</span>
+    <span class="s0">var </span><span class="s1">boards = []</span><span class="s0">; </span><span class="s3">//all boards created from moving this piece</span>
+    <span class="s0">var </span><span class="s1">moves = </span><span class="s0">this</span><span class="s1">.generateMoves(currentBoard)</span><span class="s0">; </span><span class="s3">//all the posible moves this piece can do ,as vectors</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; moves.length</span><span class="s0">; </span><span class="s1">i++) { </span><span class="s3">//for each move</span>
+      <span class="s1">boards[i] = currentBoard.clone()</span><span class="s0">; </span><span class="s3">//create a new board</span>
+      <span class="s1">boards[i].move(</span><span class="s0">this</span><span class="s1">.matrixPosition</span><span class="s0">, </span><span class="s1">moves[i])</span><span class="s0">; </span><span class="s3">//move this piece to the mvoe location</span>
+    <span class="s1">}</span>
+
+    <span class="s0">return </span><span class="s1">boards</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+
+  <span class="s1">withinBounds(x</span><span class="s0">, </span><span class="s1">y) {</span>
+
+    <span class="s0">if </span><span class="s1">(x &gt;= </span><span class="s2">0 </span><span class="s1">&amp;&amp; y &gt;= </span><span class="s2">0 </span><span class="s1">&amp;&amp; x &lt; </span><span class="s2">8 </span><span class="s1">&amp;&amp; y &lt; </span><span class="s2">8</span><span class="s1">) {</span>
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+
+  <span class="s1">}</span>
+
+
+
+  <span class="s1">move(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">var </span><span class="s1">attacking = board.getPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(attacking != </span><span class="s0">null</span><span class="s1">) {</span>
+      <span class="s1">attacking.taken = </span><span class="s0">true;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.matrixPosition = createVector(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.pixelPosition = createVector(x * tileSize + tileSize / </span><span class="s2">2</span><span class="s0">, </span><span class="s1">y *</span>
+      <span class="s1">tileSize + tileSize / </span><span class="s2">2</span><span class="s1">)</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+  <span class="s1">attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">var </span><span class="s1">attacking = board.getPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(attacking != </span><span class="s0">null</span><span class="s1">) {</span>
+      <span class="s0">if </span><span class="s1">(attacking.white == </span><span class="s0">this</span><span class="s1">.white) {</span>
+        <span class="s3">//if they are of the same player</span>
+        <span class="s0">return true;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">return true;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">var </span><span class="s1">stepDirectionX = x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(stepDirectionX &gt; </span><span class="s2">0</span><span class="s1">) {</span>
+      <span class="s1">stepDirectionX = </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(stepDirectionX &lt; </span><span class="s2">0</span><span class="s1">) {</span>
+      <span class="s1">stepDirectionX = -</span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">var </span><span class="s1">stepDirectionY = y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(stepDirectionY &gt; </span><span class="s2">0</span><span class="s1">) {</span>
+      <span class="s1">stepDirectionY = </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(stepDirectionY &lt; </span><span class="s2">0</span><span class="s1">) {</span>
+      <span class="s1">stepDirectionY = -</span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">var </span><span class="s1">tempPos = createVector(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y)</span><span class="s0">;</span>
+    <span class="s1">tempPos.x += stepDirectionX</span><span class="s0">;</span>
+    <span class="s1">tempPos.y += stepDirectionY</span><span class="s0">;</span>
+    <span class="s0">while </span><span class="s1">(tempPos.x != x || tempPos.y != y) {</span>
+
+      <span class="s0">if </span><span class="s1">(board.getPieceAt(tempPos.x</span><span class="s0">, </span><span class="s1">tempPos.y) != </span><span class="s0">null</span><span class="s1">) {</span>
+        <span class="s0">return true;</span>
+      <span class="s1">}</span>
+      <span class="s1">tempPos.x += stepDirectionX</span><span class="s0">;</span>
+      <span class="s1">tempPos.y += stepDirectionY</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+
+
+<span class="s1">}</span>
+
+<span class="s0">class </span><span class="s1">King </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;K&quot;</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">0</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">6</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">99</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">King(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">, this</span><span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+
+
+
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) &lt;= </span><span class="s2">1 </span><span class="s1">&amp;&amp; abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y) &lt;=</span>
+      <span class="s2">1</span><span class="s1">) {</span>
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">2</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">j &lt; </span><span class="s2">2</span><span class="s0">; </span><span class="s1">j++) {</span>
+        <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x + i</span><span class="s0">;</span>
+        <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y + j</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(i != </span><span class="s2">0 </span><span class="s1">|| j != </span><span class="s2">0</span><span class="s1">) {</span>
+            <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+              <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span>
+            <span class="s1">}</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+
+    <span class="s1">}</span>
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+<span class="s1">}</span>
+
+<span class="s0">class </span><span class="s1">Queen </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;Q&quot;</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">1</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">7</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">9</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">if </span><span class="s1">(x == </span><span class="s0">this</span><span class="s1">.matrixPosition.x || y == </span><span class="s0">this</span><span class="s1">.matrixPosition.y) {</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+        <span class="s0">return false;</span>
+      <span class="s1">}</span>
+
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s3">//diagonal</span>
+    <span class="s0">if </span><span class="s1">(abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) == abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y)) {</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+        <span class="s0">return false;</span>
+      <span class="s1">}</span>
+
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+
+    <span class="s3">//generateHorizontal moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = i</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//generateVertical moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;;</span>
+      <span class="s0">var </span><span class="s1">y = i</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(i != </span><span class="s0">this</span><span class="s1">.matrixPosition.y) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s3">//generateDiagonal Moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = i</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y - (</span><span class="s0">this</span><span class="s1">.matrixPosition.x - i)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+              <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x + (</span><span class="s0">this</span><span class="s1">.matrixPosition.y - i)</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = i</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+              <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//print(&quot;Queen&quot;, moves);</span>
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Queen(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">,</span>
+      <span class="s0">this</span><span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+<span class="s1">}</span>
+<span class="s0">class </span><span class="s1">Bishop </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;B&quot;</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">2</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">8</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">3</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s3">//diagonal</span>
+    <span class="s0">if </span><span class="s1">(abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) == abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y)) {</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+        <span class="s0">return false;</span>
+      <span class="s1">}</span>
+
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+    <span class="s3">//generateDiagonal Moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = i</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y - (</span><span class="s0">this</span><span class="s1">.matrixPosition.x - i)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+              <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x + (</span><span class="s0">this</span><span class="s1">.matrixPosition.y - i)</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = i</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+              <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//print(&quot;Bishop&quot;, moves);</span>
+
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Bishop(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">,</span>
+      <span class="s0">this</span><span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+<span class="s1">}</span>
+<span class="s0">class </span><span class="s1">Rook </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;R&quot;</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">4</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">10</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">5</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">if </span><span class="s1">(x == </span><span class="s0">this</span><span class="s1">.matrixPosition.x || y == </span><span class="s0">this</span><span class="s1">.matrixPosition.y) {</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+        <span class="s0">return false;</span>
+      <span class="s1">}</span>
+
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+
+    <span class="s3">//generateHorizontal moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = i</span><span class="s0">;</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//generateVertical moves</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+      <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;;</span>
+      <span class="s0">var </span><span class="s1">y = i</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(i != </span><span class="s0">this</span><span class="s1">.matrixPosition.y) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//print(&quot;Rook&quot;, moves);</span>
+
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+
+
+  <span class="s1">}</span>
+
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Rook(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">, this</span>
+      <span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+<span class="s1">}</span>
+<span class="s0">class </span><span class="s1">Knight </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;Kn&quot;</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">3</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">9</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">3</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">if </span><span class="s1">((abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) == </span><span class="s2">2 </span><span class="s1">&amp;&amp; abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition</span>
+        <span class="s1">.y) == </span><span class="s2">1</span><span class="s1">) || (abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) == </span><span class="s2">1 </span><span class="s1">&amp;&amp; abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition</span>
+        <span class="s1">.y) == </span><span class="s2">2</span><span class="s1">)) {</span>
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+
+
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = -</span><span class="s2">2</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">3</span><span class="s0">; </span><span class="s1">i += </span><span class="s2">4</span><span class="s1">) {</span>
+      <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">j &lt; </span><span class="s2">2</span><span class="s0">; </span><span class="s1">j += </span><span class="s2">2</span><span class="s1">) {</span>
+
+        <span class="s0">var </span><span class="s1">x = i + </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;</span>
+        <span class="s0">var </span><span class="s1">y = j + </span><span class="s0">this</span><span class="s1">.matrixPosition.y</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">2</span><span class="s0">; </span><span class="s1">i += </span><span class="s2">2</span><span class="s1">) {</span>
+      <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = -</span><span class="s2">2</span><span class="s0">; </span><span class="s1">j &lt; </span><span class="s2">3</span><span class="s0">; </span><span class="s1">j += </span><span class="s2">4</span><span class="s1">) {</span>
+
+        <span class="s0">var </span><span class="s1">x = i + </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;</span>
+        <span class="s0">var </span><span class="s1">y = j + </span><span class="s0">this</span><span class="s1">.matrixPosition.y</span><span class="s0">;</span>
+
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+          <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+            <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+
+          <span class="s1">}</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//print(&quot;Knight&quot;, moves);</span>
+
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Knight(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">,</span>
+      <span class="s0">this</span><span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+<span class="s1">}</span>
+<span class="s0">class </span><span class="s1">Pawn </span><span class="s0">extends </span><span class="s1">Piece {</span>
+  <span class="s1">constructor(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite) {</span>
+    <span class="s0">super</span><span class="s1">(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">isWhite)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.letter = </span><span class="s4">&quot;p&quot;</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.firstTurn = </span><span class="s0">true;</span>
+    <span class="s0">if </span><span class="s1">(isWhite) {</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">5</span><span class="s1">]</span><span class="s0">;</span>
+
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">this</span><span class="s1">.pic = images[</span><span class="s2">11</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.value = </span><span class="s2">1</span><span class="s0">;</span>
+
+  <span class="s1">}</span>
+
+  <span class="s1">canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">var </span><span class="s1">attacking = board.isPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(attacking) {</span>
+      <span class="s3">//if attacking a player</span>
+      <span class="s0">if </span><span class="s1">(abs(x - </span><span class="s0">this</span><span class="s1">.matrixPosition.x) == abs(y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y) &amp;&amp;</span>
+        <span class="s1">((</span><span class="s0">this</span><span class="s1">.white &amp;&amp; (y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y) == -</span><span class="s2">1</span><span class="s1">) || (!</span><span class="s0">this</span><span class="s1">.white &amp;&amp;</span>
+          <span class="s1">(y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y) == </span><span class="s2">1</span><span class="s1">))) {</span>
+        <span class="s0">this</span><span class="s1">.firstTurn = </span><span class="s0">false;</span>
+        <span class="s0">return true;</span>
+      <span class="s1">}</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(x != </span><span class="s0">this</span><span class="s1">.matrixPosition.x) {</span>
+      <span class="s0">return false;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">((</span><span class="s0">this</span><span class="s1">.white &amp;&amp; y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y == -</span><span class="s2">1</span><span class="s1">) || (!</span><span class="s0">this</span><span class="s1">.white &amp;&amp;</span>
+        <span class="s1">y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y == </span><span class="s2">1</span><span class="s1">)) {</span>
+      <span class="s0">this</span><span class="s1">.firstTurn = </span><span class="s0">false;</span>
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.firstTurn &amp;&amp; ((</span><span class="s0">this</span><span class="s1">.white &amp;&amp; y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y == -</span><span class="s2">2</span><span class="s1">) ||</span>
+        <span class="s1">(!</span><span class="s0">this</span><span class="s1">.white &amp;&amp; y - </span><span class="s0">this</span><span class="s1">.matrixPosition.y == </span><span class="s2">2</span><span class="s1">))) {</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+        <span class="s0">return false;</span>
+      <span class="s1">}</span>
+
+      <span class="s0">this</span><span class="s1">.firstTurn = </span><span class="s0">false;</span>
+      <span class="s0">return true;</span>
+    <span class="s1">}</span>
+    <span class="s0">return false;</span>
+  <span class="s1">}</span>
+
+
+  <span class="s1">generateMoves(board) {</span>
+    <span class="s0">var </span><span class="s1">moves = []</span><span class="s0">;</span>
+
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">2</span><span class="s0">; </span><span class="s1">i += </span><span class="s2">2</span><span class="s1">) {</span>
+      <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x + i</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.white) {</span>
+        <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y - </span><span class="s2">1</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y + </span><span class="s2">1</span><span class="s0">;</span>
+      <span class="s1">}</span>
+      <span class="s0">var </span><span class="s1">attacking = board.getPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(attacking) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.attackingAllies(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">var </span><span class="s1">x = </span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.white) {</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y - </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y + </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(!board.isPieceAt(x</span><span class="s0">, </span><span class="s1">y) &amp;&amp; </span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+      <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.firstTurn) {</span>
+
+      <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.white) {</span>
+        <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y - </span><span class="s2">2</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s0">var </span><span class="s1">y = </span><span class="s0">this</span><span class="s1">.matrixPosition.y + </span><span class="s2">2</span><span class="s0">;</span>
+      <span class="s1">}</span>
+      <span class="s0">if </span><span class="s1">(!board.isPieceAt(x</span><span class="s0">, </span><span class="s1">y) &amp;&amp; </span><span class="s0">this</span><span class="s1">.withinBounds(x</span><span class="s0">, </span><span class="s1">y)) {</span>
+        <span class="s0">if </span><span class="s1">(!</span><span class="s0">this</span><span class="s1">.moveThroughPieces(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board)) {</span>
+          <span class="s1">moves.push(createVector(x</span><span class="s0">, </span><span class="s1">y))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s3">//print(&quot;pawn&quot;, moves);</span>
+    <span class="s0">return </span><span class="s1">moves</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">clone() {</span>
+    <span class="s0">var </span><span class="s1">clone = </span><span class="s0">new </span><span class="s1">Pawn(</span><span class="s0">this</span><span class="s1">.matrixPosition.x</span><span class="s0">, this</span><span class="s1">.matrixPosition.y</span><span class="s0">, this</span>
+      <span class="s1">.white)</span><span class="s0">;</span>
+    <span class="s1">clone.taken = </span><span class="s0">this</span><span class="s1">.taken</span><span class="s0">;</span>
+    <span class="s1">clone.firstTurn = </span><span class="s0">this</span><span class="s1">.firstTurn</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">clone</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s1">move(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">board) {</span>
+    <span class="s0">var </span><span class="s1">attacking = board.getPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(attacking != </span><span class="s0">null</span><span class="s1">) {</span>
+      <span class="s1">attacking.taken = </span><span class="s0">true;</span>
+    <span class="s1">}</span>
+    <span class="s0">this</span><span class="s1">.matrixPosition = createVector(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.pixelPosition = createVector(x * tileSize + tileSize / </span><span class="s2">2</span><span class="s0">, </span><span class="s1">y *</span>
+      <span class="s1">tileSize + tileSize / </span><span class="s2">2</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s0">this</span><span class="s1">.firstTurn = </span><span class="s0">false;</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

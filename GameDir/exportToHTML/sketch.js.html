@@ -1,0 +1,167 @@
+<html>
+<head>
+<title>sketch.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+sketch.js</font>
+</center></td></tr></table>
+<pre><span class="s0">var </span><span class="s1">test</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">moving = </span><span class="s0">false;</span>
+
+<span class="s0">var </span><span class="s1">tileSize = </span><span class="s2">100</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">movingPiece</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">whitesMove = </span><span class="s0">true;</span>
+<span class="s0">var </span><span class="s1">moveCounter = </span><span class="s2">10</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">images = []</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">whiteAI = </span><span class="s0">false;</span>
+<span class="s0">var </span><span class="s1">blackAI = </span><span class="s0">true;</span>
+
+<span class="s0">var </span><span class="s1">depthPara</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">depthPlus</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">depthMinus</span><span class="s0">;</span>
+<span class="s0">var </span><span class="s1">tempMaxDepth = </span><span class="s2">3</span><span class="s0">;</span>
+
+<span class="s0">function </span><span class="s1">setup() {</span>
+  <span class="s1">createCanvas(</span><span class="s2">800</span><span class="s0">, </span><span class="s2">800</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">htmlStuff()</span><span class="s0">;</span>
+
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">1</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">10</span><span class="s0">; </span><span class="s1">i++) {</span>
+    <span class="s1">images.push(loadImage(</span><span class="s3">&quot;assets/2000px-Chess_Pieces_Sprite_0&quot; </span><span class="s1">+ i + </span><span class="s3">&quot;.png&quot;</span><span class="s1">))</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">10</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">13</span><span class="s0">; </span><span class="s1">i++) {</span>
+    <span class="s1">images.push(loadImage(</span><span class="s3">&quot;assets/2000px-Chess_Pieces_Sprite_&quot; </span><span class="s1">+ i + </span><span class="s3">&quot;.png&quot;</span><span class="s1">))</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s1">test = </span><span class="s0">new </span><span class="s1">Board()</span><span class="s0">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">draw() {</span>
+
+  <span class="s1">background(</span><span class="s2">100</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">showGrid()</span><span class="s0">;</span>
+  <span class="s1">test.show()</span><span class="s0">;</span>
+
+  <span class="s1">runAIs()</span><span class="s0">;</span>
+
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">runAIs() {</span>
+  <span class="s1">maxDepth = tempMaxDepth</span><span class="s0">;</span>
+  <span class="s0">if </span><span class="s1">(!test.isDead() &amp;&amp; !test.hasWon()) {</span>
+    <span class="s0">if </span><span class="s1">(blackAI) {</span>
+      <span class="s0">if </span><span class="s1">(!whitesMove) {</span>
+        <span class="s0">if </span><span class="s1">(moveCounter &lt; </span><span class="s2">0</span><span class="s1">) {</span>
+          <span class="s1">test = maxFunAB(test</span><span class="s0">, </span><span class="s1">-</span><span class="s2">400</span><span class="s0">, </span><span class="s2">400</span><span class="s0">, </span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+          <span class="s4">// test = maxFun(test, 0);</span>
+          <span class="s1">print(test)</span><span class="s0">;</span>
+          <span class="s1">whitesMove = </span><span class="s0">true;</span>
+          <span class="s1">moveCounter = </span><span class="s2">10</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+          <span class="s1">moveCounter--</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(whiteAI) {</span>
+      <span class="s0">if </span><span class="s1">(whitesMove) {</span>
+        <span class="s0">if </span><span class="s1">(moveCounter &lt; </span><span class="s2">0</span><span class="s1">) {</span>
+          <span class="s1">test = minFunAB(test</span><span class="s0">, </span><span class="s1">-</span><span class="s2">400</span><span class="s0">, </span><span class="s2">400</span><span class="s0">, </span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+          <span class="s4">// test = minFun(test, 0);</span>
+
+          <span class="s1">print(</span><span class="s3">&quot;test&quot;</span><span class="s0">, </span><span class="s1">test)</span><span class="s0">;</span>
+
+          <span class="s1">whitesMove = </span><span class="s0">false;</span>
+          <span class="s1">moveCounter = </span><span class="s2">10</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+          <span class="s1">moveCounter--</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">showGrid() {</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">i++) {</span>
+    <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; </span><span class="s2">8</span><span class="s0">; </span><span class="s1">j++) {</span>
+      <span class="s0">if </span><span class="s1">((i + j) % </span><span class="s2">2 </span><span class="s1">== </span><span class="s2">1</span><span class="s1">) {</span>
+        <span class="s1">fill(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s1">fill(</span><span class="s2">240</span><span class="s1">)</span><span class="s0">;</span>
+      <span class="s1">}</span>
+      <span class="s1">noStroke()</span><span class="s0">;</span>
+      <span class="s1">rect(i * tileSize</span><span class="s0">, </span><span class="s1">j * tileSize</span><span class="s0">, </span><span class="s1">tileSize</span><span class="s0">, </span><span class="s1">tileSize)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">keyPressed() {</span>
+
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">mousePressed() {</span>
+  <span class="s0">var </span><span class="s1">x = floor(mouseX / tileSize)</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">y = floor(mouseY / tileSize)</span><span class="s0">;</span>
+  <span class="s0">if </span><span class="s1">(!test.isDone()) {</span>
+    <span class="s0">if </span><span class="s1">(!moving) {</span>
+      <span class="s1">movingPiece = test.getPieceAt(x</span><span class="s0">, </span><span class="s1">y)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(movingPiece != </span><span class="s0">null </span><span class="s1">&amp;&amp; movingPiece.white == whitesMove) {</span>
+
+        <span class="s1">movingPiece.movingThisPiece = </span><span class="s0">true;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s0">return;</span>
+      <span class="s1">}</span>
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">if </span><span class="s1">(movingPiece.canMove(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">test)) {</span>
+        <span class="s1">movingPiece.move(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">test)</span><span class="s0">;</span>
+        <span class="s1">movingPiece.movingThisPiece = </span><span class="s0">false;</span>
+        <span class="s1">whitesMove = !whitesMove</span><span class="s0">;</span>
+      <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+        <span class="s1">movingPiece.movingThisPiece = </span><span class="s0">false;</span>
+
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s1">moving = !moving</span><span class="s0">;</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+<span class="s4">//---------------------------------------------------------------------------------------------------------------------</span>
+<span class="s0">function </span><span class="s1">htmlStuff() {</span>
+  <span class="s1">createP(</span>
+    <span class="s3">&quot;&quot;</span>
+  <span class="s1">)</span>
+  <span class="s1">depthPara = createDiv(</span><span class="s3">&quot;Thinking &quot; </span><span class="s1">+ maxDepth + </span><span class="s3">&quot; moves ahead&quot;</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">depthMinus = createButton(</span><span class="s3">&quot;-&quot;</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">depthPlus = createButton(</span><span class="s3">'+'</span><span class="s1">)</span><span class="s0">;</span>
+
+  <span class="s1">depthPlus.mousePressed(plusDepth)</span><span class="s0">;</span>
+  <span class="s1">depthMinus.mousePressed(minusDepth)</span><span class="s0">;</span>
+
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">minusDepth() {</span>
+  <span class="s0">if </span><span class="s1">(tempMaxDepth &gt; </span><span class="s2">1</span><span class="s1">) {</span>
+    <span class="s1">tempMaxDepth -= </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">depthPara.html(</span><span class="s3">&quot;Thinking &quot; </span><span class="s1">+ tempMaxDepth + </span><span class="s3">&quot; moves ahead&quot;</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">plusDepth() {</span>
+  <span class="s0">if </span><span class="s1">(tempMaxDepth &lt; </span><span class="s2">5</span><span class="s1">) {</span>
+    <span class="s1">tempMaxDepth += </span><span class="s2">1</span><span class="s0">;</span>
+    <span class="s1">depthPara.html(</span><span class="s3">&quot;Thinking &quot; </span><span class="s1">+ tempMaxDepth + </span><span class="s3">&quot; moves ahead&quot;</span><span class="s1">)</span><span class="s0">;</span>
+  <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

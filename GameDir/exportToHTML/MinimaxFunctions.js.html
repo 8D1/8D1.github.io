@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>MinimaxFunctions.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MinimaxFunctions.js</font>
+</center></td></tr></table>
+<pre><span class="s0">var </span><span class="s1">maxDepth = </span><span class="s2">3</span><span class="s0">;</span>
+
+
+<span class="s0">function </span><span class="s1">minFun(board</span><span class="s0">, </span><span class="s1">depth) {</span>
+  <span class="s0">if </span><span class="s1">(depth &gt;= maxDepth) {</span>
+    <span class="s1">board.setScore()</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">board.score</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s0">var </span><span class="s1">boards = board.generateNewBoardsWhitesTurn()</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">lowestBoardNo = </span><span class="s2">0</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">lowestScore = </span><span class="s2">100000</span><span class="s0">;</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; boards.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+    <span class="s0">if </span><span class="s1">(!boards[i].isDead()) {</span>
+      <span class="s0">var </span><span class="s1">score = maxFun(boards[i]</span><span class="s0">, </span><span class="s1">depth + </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+      <span class="s0">if </span><span class="s1">(score &lt; lowestScore) {</span>
+        <span class="s1">lowestBoardNo = i</span><span class="s0">;</span>
+        <span class="s1">lowestScore = score</span><span class="s0">;</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+  <span class="s0">return </span><span class="s1">lowestScore</span><span class="s0">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s1">maxFun(board</span><span class="s0">, </span><span class="s1">depth) {</span>
+  <span class="s0">if </span><span class="s1">(depth &gt;= maxDepth) {</span>
+    <span class="s1">board.setScore()</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">board.score</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+
+  <span class="s0">var </span><span class="s1">boards = board.generateNewBoardsBlacksTurn()</span><span class="s0">;</span>
+  <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+    <span class="s3">//////print(boards);</span>
+  <span class="s1">}</span>
+  <span class="s0">var </span><span class="s1">topBoardNo = </span><span class="s2">0</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">topScore = -</span><span class="s2">100000</span><span class="s0">;</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; boards.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+    <span class="s0">var </span><span class="s1">score = minFun(boards[i]</span><span class="s0">, </span><span class="s1">depth + </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(score &gt; topScore) {</span>
+      <span class="s1">topBoardNo = i</span><span class="s0">;</span>
+      <span class="s1">topScore = score</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+    <span class="s3">////print(topScore);</span>
+    <span class="s0">return </span><span class="s1">boards[topBoardNo]</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s0">return </span><span class="s1">topScore</span><span class="s0">;</span>
+<span class="s1">}</span>
+
+
+<span class="s0">function </span><span class="s1">minFunAB(board</span><span class="s0">, </span><span class="s1">alpha</span><span class="s0">, </span><span class="s1">beta</span><span class="s0">, </span><span class="s1">depth) {</span>
+  <span class="s0">if </span><span class="s1">(depth &gt;= maxDepth) {</span>
+    <span class="s1">board.setScore()</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">board.score</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+
+  <span class="s0">if </span><span class="s1">(board.isDead()) {</span>
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return </span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return </span><span class="s1">-</span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(board.hasWon()) {</span>
+
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return </span><span class="s1">-</span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return </span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s0">var </span><span class="s1">boards = board.generateNewBoardsWhitesTurn()</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">lowestBoardNo = </span><span class="s2">0</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">lowestScore = </span><span class="s2">300</span><span class="s0">;</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; boards.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+
+    <span class="s0">var </span><span class="s1">score = maxFunAB(boards[i]</span><span class="s0">, </span><span class="s1">alpha</span><span class="s0">, </span><span class="s1">beta</span><span class="s0">, </span><span class="s1">depth + </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+      <span class="s3">//print(score, i, boards[i]);</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(score &lt; lowestScore) {</span>
+      <span class="s1">lowestBoardNo = i</span><span class="s0">;</span>
+      <span class="s1">lowestScore = score</span><span class="s0">;</span>
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0 </span><span class="s1">&amp;&amp; score == lowestScore) {</span>
+        <span class="s3">//print(&quot;same as so i do what i want&quot;, i);</span>
+        <span class="s0">if </span><span class="s1">(random(</span><span class="s2">1</span><span class="s1">) &lt; </span><span class="s2">0.3</span><span class="s1">) {</span>
+          <span class="s1">lowestBoardNo = i</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(score &lt; alpha) {</span>
+      <span class="s0">return </span><span class="s1">lowestScore</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(score &lt; beta) {</span>
+      <span class="s1">beta = score</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+    <span class="s3">////print(lowestScore);</span>
+    <span class="s3">////print(&quot;i made it here&quot;);</span>
+    <span class="s0">return </span><span class="s1">boards[lowestBoardNo]</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s3">////print(&quot;ohNo&quot;);</span>
+  <span class="s3">////print(lowestScore);</span>
+  <span class="s0">return </span><span class="s1">lowestScore</span><span class="s0">;</span>
+<span class="s1">}</span>
+<span class="s3">//---------------------------------------------------------------------------------------</span>
+<span class="s0">function </span><span class="s1">maxFunAB(board</span><span class="s0">, </span><span class="s1">alpha</span><span class="s0">, </span><span class="s1">beta</span><span class="s0">, </span><span class="s1">depth) {</span>
+  <span class="s0">if </span><span class="s1">(depth &gt;= maxDepth) {</span>
+    <span class="s1">board.setScore()</span><span class="s0">;</span>
+    <span class="s0">return </span><span class="s1">board.score</span><span class="s0">;</span>
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(board.isDead()) {</span>
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return </span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return </span><span class="s1">-</span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(board.hasWon()) {</span>
+    <span class="s0">if </span><span class="s1">(whiteAI &amp;&amp; whitesMove) {</span>
+      <span class="s0">return </span><span class="s1">-</span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(blackAI &amp;&amp; !whitesMove) {</span>
+      <span class="s0">return </span><span class="s2">200</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+
+  <span class="s0">var </span><span class="s1">boards = board.generateNewBoardsBlacksTurn()</span><span class="s0">;</span>
+  <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+    <span class="s3">//////print(boards);</span>
+  <span class="s1">}</span>
+  <span class="s0">var </span><span class="s1">topBoardNo = </span><span class="s2">0</span><span class="s0">;</span>
+  <span class="s0">var </span><span class="s1">topScore = -</span><span class="s2">300</span><span class="s0">;</span>
+  <span class="s0">for </span><span class="s1">(</span><span class="s0">var </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; boards.length</span><span class="s0">; </span><span class="s1">i++) {</span>
+
+    <span class="s0">var </span><span class="s1">score = minFunAB(boards[i]</span><span class="s0">, </span><span class="s1">alpha</span><span class="s0">, </span><span class="s1">beta</span><span class="s0">, </span><span class="s1">depth + </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s0">if </span><span class="s1">(score &gt; topScore) {</span>
+      <span class="s1">topBoardNo = i</span><span class="s0">;</span>
+      <span class="s1">topScore = score</span><span class="s0">;</span>
+    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+      <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0 </span><span class="s1">&amp;&amp; score == topScore) {</span>
+        <span class="s0">if </span><span class="s1">(random(</span><span class="s2">1</span><span class="s1">) &lt; </span><span class="s2">0.3</span><span class="s1">) {</span>
+          <span class="s1">topBoardNo = i</span><span class="s0">;</span>
+        <span class="s1">}</span>
+      <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(score &gt; beta) {</span>
+      <span class="s0">return </span><span class="s1">topScore</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">if </span><span class="s1">(score &gt; alpha) {</span>
+      <span class="s1">alpha = score</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+  <span class="s1">}</span>
+
+  <span class="s0">if </span><span class="s1">(depth == </span><span class="s2">0</span><span class="s1">) {</span>
+    <span class="s3">////print(topScore);</span>
+    <span class="s0">return </span><span class="s1">boards[topBoardNo]</span><span class="s0">;</span>
+  <span class="s1">}</span>
+  <span class="s0">return </span><span class="s1">topScore</span><span class="s0">;</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
